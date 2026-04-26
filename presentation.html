@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap – Презентация</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #f9d342;
+      --dark: #1a1a2e;
+      --bs-purple: #7952b3;
+      --slide-bg: #0d1117;
+    }
+
+    /* ===== Layout ===== */
+    html, body { height: 100%; margin: 0; font-family: 'Inter', sans-serif; background: var(--slide-bg); color: #fff; }
+
+    .presentation { display: flex; flex-direction: column; height: 100vh; }
+
+    /* ===== Slides ===== */
+    .slides-wrapper { flex: 1; overflow: hidden; position: relative; }
+    .slide {
+      position: absolute; inset: 0;
+      display: none; flex-direction: column; justify-content: center; align-items: center;
+      padding: 40px 60px; text-align: center;
+      opacity: 0; transition: opacity .5s;
+    }
+    .slide.active { display: flex; opacity: 1; }
+
+    /* ===== Slide themes ===== */
+    .slide-1  { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); }
+    .slide-2  { background: linear-gradient(135deg, #7952b3 0%, #5a3e95 100%); }
+    .slide-3  { background: linear-gradient(135deg, #0f3460 0%, #16213e 100%); }
+    .slide-4  { background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%); }
+    .slide-5  { background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%); }
+    .slide-6  { background: linear-gradient(135deg, #370617 0%, #9d0208 100%); }
+    .slide-7  { background: linear-gradient(135deg, #3d405b 0%, #81b29a 100%); }
+    .slide-8  { background: linear-gradient(135deg, #4a4e69 0%, #c9ada7 100%); color: #111; }
+    .slide-9  { background: linear-gradient(135deg, #0d1b2a 0%, #1b4332 100%); }
+    .slide-10 { background: linear-gradient(135deg, #240046 0%, #9e0059 100%); }
+    .slide-11 { background: linear-gradient(135deg, #1a1a2e 0%, #e63946 100%); }
+    .slide-12 { background: linear-gradient(135deg, #264653 0%, #2a9d8f 100%); }
+    .slide-13 { background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 60%, #7952b3 100%); }
+
+    /* ===== Typography ===== */
+    .slide-number {
+      position: absolute; top: 18px; right: 24px;
+      font-size: .85rem; opacity: .5; letter-spacing: 1px;
+    }
+    .slide-tag {
+      display: inline-block; background: rgba(255,255,255,.15);
+      padding: 4px 14px; border-radius: 20px; font-size: .8rem;
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem,6vw,4.5rem); font-weight: 700; line-height: 1.1; }
+    h2.slide-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem,4vw,2.8rem); margin-bottom: 1rem; }
+    .sub { font-size: clamp(.95rem,2vw,1.25rem); opacity: .85; max-width: 750px; }
+    .logo-bs { font-size: clamp(3rem,8vw,6rem); font-weight: 900; color: #7952b3; background: #fff; border-radius: 16px; padding: 8px 24px; display: inline-block; line-height: 1; }
+
+    /* ===== Feature cards ===== */
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 16px; width: 100%; max-width: 860px; }
+    .feat-card {
+      background: rgba(255,255,255,.12); border-radius: 14px; padding: 22px 14px;
+      backdrop-filter: blur(6px);
+    }
+    .feat-card i { font-size: 2rem; margin-bottom: 10px; color: var(--gold); }
+    .feat-card p { margin: 0; font-size: .9rem; }
+
+    /* ===== Code block ===== */
+    pre.code-block {
+      background: #0d1117; color: #c9d1d9; border-radius: 10px;
+      padding: 20px 24px; text-align: left; font-size: clamp(.72rem,1.5vw,.95rem);
+      max-width: 820px; width: 100%; overflow-x: auto;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .kw  { color: #ff7b72; }
+    .attr{ color: #79c0ff; }
+    .val { color: #a5d6ff; }
+    .cm  { color: #8b949e; font-style: italic; }
+    .tag { color: #7ee787; }
+
+    /* ===== Comparison table ===== */
+    .cmp-table { width: 100%; max-width: 700px; border-collapse: separate; border-spacing: 0 8px; }
+    .cmp-table th { font-size: 1rem; padding: 8px 16px; border-bottom: 2px solid rgba(255,255,255,.3); }
+    .cmp-table td { padding: 10px 16px; background: rgba(255,255,255,.1); border-radius: 6px; font-size: .92rem; }
+
+    /* ===== Project demo ===== */
+    .demo-box { background: rgba(255,255,255,.08); border-radius: 14px; padding: 20px 28px; max-width: 760px; width: 100%; text-align: left; }
+    .demo-box .label { color: var(--gold); font-weight: 700; font-size: .85rem; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ===== Timeline ===== */
+    .timeline { list-style: none; padding: 0; max-width: 600px; width: 100%; text-align: left; }
+    .timeline li { display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
+    .timeline li .year { min-width: 60px; font-weight: 700; color: var(--gold); }
+    .timeline li .desc { font-size: .95rem; opacity: .88; }
+
+    /* ===== Controls ===== */
+    .controls {
+      display: flex; justify-content: center; align-items: center; gap: 24px;
+      padding: 14px 0; background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+      flex-shrink: 0;
+    }
+    .controls button {
+      background: rgba(255,255,255,.12); color: #fff; border: none;
+      border-radius: 8px; padding: 8px 20px; font-size: .95rem; cursor: pointer;
+      transition: background .2s;
+    }
+    .controls button:hover { background: rgba(255,255,255,.25); }
+    .controls button:disabled { opacity: .3; cursor: default; }
+    #slide-counter { font-size: .9rem; opacity: .6; min-width: 60px; text-align: center; }
+
+    /* progress bar */
+    #progress-bar { height: 3px; background: var(--gold); transition: width .35s; position: absolute; top: 0; left: 0; z-index: 10; }
+
+    /* ===== Utility ===== */
+    .pill { display: inline-block; background: rgba(255,255,255,.18); border-radius: 20px; padding: 5px 16px; margin: 4px; font-size: .85rem; }
+    .green { color: #56d364; } .red { color: #f97583; }
+    .text-gold { color: var(--gold); }
+    @media(max-width: 600px) { .slide { padding: 24px 20px; } }
+  </style>
+</head>
+<body>
+
+<div class="presentation">
+
+  <!-- Progress bar -->
+  <div style="position:relative;height:3px;background:rgba(255,255,255,.1)">
+    <div id="progress-bar" style="width:0%"></div>
+  </div>
+
+  <div class="slides-wrapper">
+
+    <!-- ===== SLIDE 1 – Title ===== -->
+    <div class="slide slide-1 active">
+      <div class="slide-number">1 / 13</div>
+      <div class="logo-bs mb-4">B</div>
+      <h1 class="hero-title">Bootstrap</h1>
+      <p class="sub mt-3">Най-популярният CSS framework за изграждане на отзивчиви уебсайтове</p>
+      <div class="mt-4">
+        <span class="pill">HTML</span><span class="pill">CSS</span><span class="pill">JavaScript</span>
+        <span class="pill">Responsive Design</span>
+      </div>
+      <p class="mt-5 opacity-50" style="font-size:.85rem;">Проект: Хотел Ел Кастела &nbsp;|&nbsp; Димитър Чоков</p>
+    </div>
+
+    <!-- ===== SLIDE 2 – What is Bootstrap? ===== -->
+    <div class="slide slide-2">
+      <div class="slide-number">2 / 13</div>
+      <div class="slide-tag">Въведение</div>
+      <h2 class="slide-heading">Какво е Bootstrap?</h2>
+      <p class="sub">Bootstrap е <strong>безплатен, отворен CSS framework</strong>, създаден от Twitter.<br>
+      Той предоставя готови компоненти, grid система и JavaScript плъгини, с които можете да изграждате <em>responsive</em> уебсайтове бързо и лесно — без да пишете CSS от нулата.</p>
+      <div class="feat-grid mt-4" style="max-width:600px;">
+        <div class="feat-card"><i class="fab fa-bootstrap"></i><p>Безплатен и Open Source</p></div>
+        <div class="feat-card"><i class="fas fa-mobile-alt"></i><p>Mobile-First</p></div>
+        <div class="feat-card"><i class="fas fa-puzzle-piece"></i><p>Готови компоненти</p></div>
+        <div class="feat-card"><i class="fas fa-plug"></i><p>JS плъгини</p></div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 3 – History ===== -->
+    <div class="slide slide-3">
+      <div class="slide-number">3 / 13</div>
+      <div class="slide-tag">История</div>
+      <h2 class="slide-heading">История на Bootstrap</h2>
+      <ul class="timeline">
+        <li><span class="year">2011</span><span class="desc">Създаден от <strong>Mark Otto</strong> и <strong>Jacob Thornton</strong> в Twitter за вътрешна употреба.</span></li>
+        <li><span class="year">2011</span><span class="desc">Пуснат като <strong>open-source</strong> проект в GitHub под MIT лиценз.</span></li>
+        <li><span class="year">2013</span><span class="desc">Bootstrap 3 — въвежда <strong>mobile-first</strong> подход и нова grid система.</span></li>
+        <li><span class="year">2018</span><span class="desc">Bootstrap 4 — пълно пренаписване с <strong>Flexbox</strong>, нови утилити класове.</span></li>
+        <li><span class="year">2021</span><span class="desc">Bootstrap 5 — <strong>без jQuery</strong>, подобрен grid (CSS Grid/Flexbox), нови компоненти. <span class="text-gold">Текуща версия.</span></span></li>
+      </ul>
+    </div>
+
+    <!-- ===== SLIDE 4 – Installation ===== -->
+    <div class="slide slide-4">
+      <div class="slide-number">4 / 13</div>
+      <div class="slide-tag">Включване</div>
+      <h2 class="slide-heading">Как се включва Bootstrap?</h2>
+      <p class="sub mb-3">Само два реда в HTML файла — CSS в &lt;head&gt; и JS преди &lt;/body&gt;:</p>
+      <pre class="code-block"><span class="cm">&lt;!-- CSS в &lt;head&gt; --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="val">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>
+      <span class="attr">rel</span>=<span class="val">"stylesheet"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- JS преди &lt;/body&gt; --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span></pre>
+      <p class="mt-3 opacity-75 small">Алтернативно: <code>npm install bootstrap</code> за npm проекти.</p>
+    </div>
+
+    <!-- ===== SLIDE 5 – Grid System ===== -->
+    <div class="slide slide-5">
+      <div class="slide-number">5 / 13</div>
+      <div class="slide-tag">Grid система</div>
+      <h2 class="slide-heading">Grid система</h2>
+      <p class="sub mb-3">Bootstrap разделя реда на <strong>12 колони</strong>. Използвайте класове за различни размери на екрана:</p>
+      <pre class="code-block"><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"container"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"row g-4"</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- Заема 12/12 на мобилен, 6/12 на таблет, 4/12 на десктоп --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"col-12 col-md-6 col-lg-4"</span><span class="tag">&gt;</span>Стая 1<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"col-12 col-md-6 col-lg-4"</span><span class="tag">&gt;</span>Стая 2<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"col-12 col-md-6 col-lg-4"</span><span class="tag">&gt;</span>Стая 3<span class="tag">&lt;/div&gt;</span>
+
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+      <div class="mt-3 d-flex gap-2 flex-wrap justify-content-center">
+        <span class="pill"><strong>xs</strong> &lt;576px</span>
+        <span class="pill"><strong>sm</strong> ≥576px</span>
+        <span class="pill"><strong>md</strong> ≥768px</span>
+        <span class="pill"><strong>lg</strong> ≥992px</span>
+        <span class="pill"><strong>xl</strong> ≥1200px</span>
+        <span class="pill"><strong>xxl</strong> ≥1400px</span>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 6 – Navbar ===== -->
+    <div class="slide slide-6">
+      <div class="slide-number">6 / 13</div>
+      <div class="slide-tag">Компонент – Navbar</div>
+      <h2 class="slide-heading">Navbar в Хотела</h2>
+      <p class="sub mb-3">Bootstrap Navbar автоматично се свива в <strong>hamburger меню</strong> на малки екрани:</p>
+      <pre class="code-block"><span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar navbar-expand-lg"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"container"</span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;a</span> <span class="attr">class</span>=<span class="val">"navbar-brand"</span> <span class="attr">href</span>=<span class="val">"index.html"</span><span class="tag">&gt;</span>🏨 Ел Кастела<span class="tag">&lt;/a&gt;</span>
+
+    <span class="cm">&lt;!-- Бутон за мобилно меню --&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"navbar-toggler"</span> <span class="attr">data-bs-toggle</span>=<span class="val">"collapse"</span>
+            <span class="attr">data-bs-target</span>=<span class="val">"#mainNav"</span><span class="tag">&gt;&lt;/button&gt;</span>
+
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"collapse navbar-collapse"</span> <span class="attr">id</span>=<span class="val">"mainNav"</span><span class="tag">&gt;</span>
+      <span class="cm">&lt;!-- Навигационни линкове --&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></pre>
+    </div>
+
+    <!-- ===== SLIDE 7 – Cards ===== -->
+    <div class="slide slide-7">
+      <div class="slide-number">7 / 13</div>
+      <div class="slide-tag">Компонент – Cards</div>
+      <h2 class="slide-heading">Bootstrap Cards — Стаите</h2>
+      <p class="sub mb-3">Картите от секцията „Стаи" са изградени с Bootstrap <code>.card</code> компонент:</p>
+      <pre class="code-block"><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card border-0 shadow h-100"</span><span class="tag">&gt;</span>
+
+  <span class="cm">&lt;!-- Снимка --&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"standartroom.jpg"</span> <span class="attr">class</span>=<span class="val">"card-img-top"</span> <span class="attr">alt</span>=<span class="val">"Стая"</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card-body p-4"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h4</span> <span class="attr">class</span>=<span class="val">"fw-bold"</span><span class="tag">&gt;</span>Стандартни стаи<span class="tag">&lt;/h4&gt;</span>
+    <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"card-text"</span><span class="tag">&gt;</span>Описание...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p&gt;&lt;span</span> <span class="attr">class</span>=<span class="val">"fs-3 fw-bold"</span><span class="tag">&gt;</span>50 лв.<span class="tag">&lt;/span&gt;</span> / нощувка<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+
+<span class="tag">&lt;/div&gt;</span></pre>
+    </div>
+
+    <!-- ===== SLIDE 8 – Forms ===== -->
+    <div class="slide slide-8">
+      <div class="slide-number">8 / 13</div>
+      <div class="slide-tag" style="color:#fff;">Компонент – Forms</div>
+      <h2 class="slide-heading" style="color:#fff;">Bootstrap Форми</h2>
+      <p class="sub mb-3" style="color:rgba(255,255,255,.85);">Формата за резервация и регистрация използват Bootstrap form класове:</p>
+      <pre class="code-block"><span class="cm">&lt;!-- Регистрационна форма --&gt;</span>
+<span class="tag">&lt;form&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"mb-3"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">class</span>=<span class="val">"form-label fw-semibold"</span><span class="tag">&gt;</span>Имейл адрес<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">class</span>=<span class="val">"form-control"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"form-check mb-3"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"checkbox"</span> <span class="attr">class</span>=<span class="val">"form-check-input"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">class</span>=<span class="val">"form-check-label"</span><span class="tag">&gt;</span>Приемам условията<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+
+  <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"btn btn-primary w-100"</span><span class="tag">&gt;</span>Регистрирай се<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre>
+    </div>
+
+    <!-- ===== SLIDE 9 – Utilities ===== -->
+    <div class="slide slide-9">
+      <div class="slide-number">9 / 13</div>
+      <div class="slide-tag">Utility класове</div>
+      <h2 class="slide-heading">Bootstrap Utility класове</h2>
+      <p class="sub mb-4">Вместо да пишете CSS, използвайте utility класове директно в HTML:</p>
+      <div class="feat-grid" style="max-width:720px;">
+        <div class="feat-card"><i class="fas fa-ruler-combined"></i><p><code>m-3 p-4</code><br><small>Margin и Padding</small></p></div>
+        <div class="feat-card"><i class="fas fa-palette"></i><p><code>text-warning bg-dark</code><br><small>Цветове</small></p></div>
+        <div class="feat-card"><i class="fas fa-align-center"></i><p><code>text-center d-flex</code><br><small>Layout & Text</small></p></div>
+        <div class="feat-card"><i class="fas fa-expand"></i><p><code>w-100 h-100</code><br><small>Ширина & Височина</small></p></div>
+        <div class="feat-card"><i class="fas fa-border-all"></i><p><code>border rounded shadow</code><br><small>Рамки & Сенки</small></p></div>
+        <div class="feat-card"><i class="fas fa-text-height"></i><p><code>fs-1 fw-bold</code><br><small>Шрифт</small></p></div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 10 – JS Components ===== -->
+    <div class="slide slide-10">
+      <div class="slide-number">10 / 13</div>
+      <div class="slide-tag">JavaScript Компоненти</div>
+      <h2 class="slide-heading">Bootstrap JS Компоненти</h2>
+      <p class="sub mb-4">Bootstrap включва интерактивни компоненти — <strong>без jQuery</strong>!</p>
+      <div class="feat-grid" style="max-width:700px;">
+        <div class="feat-card"><i class="fas fa-bars"></i><p><strong>Navbar</strong><br><small>Responsive меню с hamburger</small></p></div>
+        <div class="feat-card"><i class="fas fa-window-restore"></i><p><strong>Modal</strong><br><small>Изскачащи прозорци</small></p></div>
+        <div class="feat-card"><i class="fas fa-images"></i><p><strong>Carousel</strong><br><small>Слайдшоу на снимки</small></p></div>
+        <div class="feat-card"><i class="fas fa-chevron-down"></i><p><strong>Accordion</strong><br><small>Разгъващи се панели</small></p></div>
+        <div class="feat-card"><i class="fas fa-bell"></i><p><strong>Toast</strong><br><small>Известия</small></p></div>
+        <div class="feat-card"><i class="fas fa-info-circle"></i><p><strong>Tooltip</strong><br><small>Подсказки при hover</small></p></div>
+      </div>
+      <p class="mt-3 sub" style="font-size:.9rem;">Активирането е чрез <code>data-bs-*</code> атрибути — <strong>без ред JavaScript</strong> от нас!</p>
+    </div>
+
+    <!-- ===== SLIDE 11 – Pros & Cons ===== -->
+    <div class="slide slide-11">
+      <div class="slide-number">11 / 13</div>
+      <div class="slide-tag">Оценка</div>
+      <h2 class="slide-heading">Предимства и Недостатъци</h2>
+      <div class="d-flex gap-4 flex-wrap justify-content-center mt-2" style="max-width:800px;">
+        <div class="demo-box" style="flex:1; min-width:280px;">
+          <div class="label green mb-3">✔ Предимства</div>
+          <ul class="text-start" style="padding-left:1rem; font-size:.95rem;">
+            <li class="mb-2">⚡ Бърза разработка — готови компоненти</li>
+            <li class="mb-2">📱 Mobile-first responsive по подразбиране</li>
+            <li class="mb-2">🌐 Огромна общност и документация</li>
+            <li class="mb-2">🔌 Не изисква jQuery (Bootstrap 5)</li>
+            <li class="mb-2">🎨 Лесна персонализация с CSS променливи</li>
+            <li>✅ Кросбраузърна съвместимост</li>
+          </ul>
+        </div>
+        <div class="demo-box" style="flex:1; min-width:280px;">
+          <div class="label red mb-3">✖ Недостатъци</div>
+          <ul class="text-start" style="padding-left:1rem; font-size:.95rem;">
+            <li class="mb-2">📦 По-голям файл (~22KB CSS minified)</li>
+            <li class="mb-2">🎭 Сайтовете изглеждат подобно без персонализация</li>
+            <li class="mb-2">📚 Изисква учене на Bootstrap класове</li>
+            <li class="mb-2">⚙️ Прекомерен код при малки проекти</li>
+            <li>🔧 По-малко контрол спрямо чист CSS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 12 – Real-world usage ===== -->
+    <div class="slide slide-12">
+      <div class="slide-number">12 / 13</div>
+      <div class="slide-tag">Реалният свят</div>
+      <h2 class="slide-heading">Кой използва Bootstrap?</h2>
+      <p class="sub mb-4">Bootstrap е един от <strong>най-изтеглените</strong> npm пакети и се използва от:</p>
+      <div class="feat-grid" style="max-width:720px;">
+        <div class="feat-card"><i class="fab fa-twitter" style="color:#1da1f2;"></i><p><strong>Twitter</strong><br><small>Създатели на Bootstrap</small></p></div>
+        <div class="feat-card"><i class="fab fa-spotify" style="color:#1db954;"></i><p><strong>Spotify</strong><br><small>Web плейър</small></p></div>
+        <div class="feat-card"><i class="fab fa-linkedin" style="color:#0077b5;"></i><p><strong>LinkedIn</strong><br><small>Профилни компоненти</small></p></div>
+        <div class="feat-card"><i class="fas fa-university"></i><p><strong>NASA</strong><br><small>Публични уебсайтове</small></p></div>
+        <div class="feat-card"><i class="fas fa-shopping-cart"></i><p><strong>8+ млн. сайта</strong><br><small>по целия свят</small></p></div>
+        <div class="feat-card"><i class="fab fa-github"></i><p><strong>GitHub Stars</strong><br><small>170 000+ ⭐</small></p></div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 13 – Conclusion ===== -->
+    <div class="slide slide-13">
+      <div class="slide-number">13 / 13</div>
+      <div class="logo-bs mb-4">B</div>
+      <h2 class="slide-heading">Заключение</h2>
+      <p class="sub" style="max-width:680px;">Bootstrap ни помогна да изградим <strong>Хотел Ел Кастела</strong> — с responsive navbar, grid за стаите, Bootstrap форми за резервация и регистрация — всичко с минимален CSS код.</p>
+      <div class="mt-4 d-flex gap-3 flex-wrap justify-content-center">
+        <a href="index.html" class="btn px-4 py-2 fw-bold" style="background:var(--gold);color:#111;">Разгледай проекта</a>
+        <a href="https://getbootstrap.com" target="_blank" rel="noopener" class="btn btn-outline-light px-4 py-2">getbootstrap.com</a>
+      </div>
+      <p class="mt-5 opacity-40" style="font-size:.8rem;">Димитър Чоков &nbsp;·&nbsp; Bootstrap Framework Презентация</p>
+    </div>
+
+  </div><!-- /slides-wrapper -->
+
+  <!-- Controls -->
+  <div class="controls">
+    <button id="prev-btn" onclick="changeSlide(-1)" disabled>
+      <i class="fas fa-arrow-left me-1"></i> Назад
+    </button>
+    <span id="slide-counter">1 / 13</span>
+    <button id="next-btn" onclick="changeSlide(1)">
+      Напред <i class="fas fa-arrow-right ms-1"></i>
+    </button>
+  </div>
+
+</div><!-- /presentation -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const slides  = document.querySelectorAll('.slide');
+  const counter = document.getElementById('slide-counter');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const bar     = document.getElementById('progress-bar');
+  let current   = 0;
+  const total   = slides.length;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, total - 1));
+    slides[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+    bar.style.width  = ((current + 1) / total * 100) + '%';
+  }
+
+  function changeSlide(dir) { showSlide(current + dir); }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+
+  // Touch / swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
+  });
+</script>
+</body>
+</html>
