@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новини – Хотел Ел Кастела</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --gold: #f9d342; --dark: #292826; }
+    body { font-family: 'Playfair Display', serif; }
+    .navbar { background: var(--dark) !important; }
+    .navbar .nav-link { color: #fff !important; }
+    .navbar .nav-link:hover { color: var(--gold) !important; }
+    .btn-gold { background: var(--gold); color: var(--dark); font-weight: 700; border: none; }
+    .page-hero {
+      background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.4)),
+        url('https://raw.githubusercontent.com/DRChokov/hotel/main/homepageimage.jpeg') center/cover no-repeat;
+      min-height: 35vh; color: #fff;
+    }
+    .news-img { height: 220px; object-fit: cover; width: 100%; }
+    .news-card { transition: box-shadow .3s; }
+    .news-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.18) !important; }
+    footer { background: var(--dark); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand text-warning fw-bold" href="index.html">🏨 Ел Кастела</a>
+    <button class="navbar-toggler border-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html#services">Услуги</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#rooms">Стаи</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">За нас</a></li>
+        <li class="nav-item"><a class="nav-link active text-warning" href="news.html">Новини</a></li>
+      </ul>
+      <div class="d-flex gap-2 ms-lg-3 mt-2 mt-lg-0">
+        <a href="login.html" class="btn btn-outline-light btn-sm">Вход</a>
+        <a href="register.html" class="btn btn-gold btn-sm">Регистрация</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero d-flex align-items-center">
+  <div class="container text-center py-4">
+    <h1 class="display-4 fw-bold">Новини</h1>
+    <p class="lead">Последни новини от Хотел Ел Кастела</p>
+  </div>
+</section>
+
+<!-- NEWS CARDS -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- News 1 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="news-card card border-0 shadow h-100">
+          <img src="https://raw.githubusercontent.com/DRChokov/hotel/main/renovation.jpg"
+               class="news-img card-img-top" alt="Реновация">
+          <div class="card-body p-4">
+            <span class="badge mb-2" style="background:var(--gold);color:var(--dark);">Обновление</span>
+            <h5 class="card-title fw-bold">Реновация на лобито</h5>
+            <p class="card-text text-muted">Хотелът ЕЛ КАСТЕЛА обявява завършването на голяма реновация на своето лоби. Новото лоби впечатлява с модерна архитектура, прекрасно осветление и изискан интериор с мраморни завършеци.</p>
+            <a href="#" class="btn btn-gold mt-2 btn-sm px-4">Прочети повече</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- News 2 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="news-card card border-0 shadow h-100">
+          <img src="https://raw.githubusercontent.com/DRChokov/hotel/main/pool.jpg"
+               class="news-img card-img-top" alt="Басейн">
+          <div class="card-body p-4">
+            <span class="badge mb-2 bg-info text-dark">Лято</span>
+            <h5 class="card-title fw-bold">Идва лятото — басейнът отваря!</h5>
+            <p class="card-text text-muted">С голямо удоволствие съобщаваме, че хотелът отваря своя басейн за лятния сезон. Предлагаме зони за отдих, детско плувно пространство, шезлонги и чадъри.</p>
+            <a href="#" class="btn btn-gold mt-2 btn-sm px-4">Прочети повече</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- News 3 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="news-card card border-0 shadow h-100">
+          <img src="https://raw.githubusercontent.com/DRChokov/hotel/main/%D0%B0%D0%BD%D0%B8%D0%BC%D0%B5.jpg"
+               class="news-img card-img-top" alt="Аниме Уикенд">
+          <div class="card-body p-4">
+            <span class="badge mb-2 bg-danger">Събитие</span>
+            <h5 class="card-title fw-bold">Аниме Уикенд</h5>
+            <p class="card-text text-muted">Хотелът организира специален аниме уикенд с тематична украса, специални менюта и изненади за всички фенове на японската анимация. Пригответе се за незабравимо изживяване!</p>
+            <a href="#" class="btn btn-gold mt-2 btn-sm px-4">Прочети повече</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="py-5" style="background:var(--dark); color:#fff;">
+  <div class="container text-center">
+    <h3 class="fw-bold mb-2">Абонирайте се за новини</h3>
+    <p class="text-white-50 mb-4">Получавайте последните новини и специални оферти директно в пощата си.</p>
+    <form class="row g-2 justify-content-center">
+      <div class="col-12 col-sm-6 col-md-4">
+        <input type="email" class="form-control" placeholder="Вашият имейл адрес">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-gold px-4">Абонирай се</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 text-center">
+  <p class="text-white-50 mb-0">© 2025 Хотел Ел Кастела | <i class="fas fa-map-marker-alt me-1"></i>гр. Пловдив</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
